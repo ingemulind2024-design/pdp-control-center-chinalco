@@ -15,7 +15,7 @@ from reportlab.lib import colors
 from supabase import Client, create_client
 
 st.set_page_config(
-    page_title="PDP Control Center",
+    page_title="PDP Control Center Chinalco",
     page_icon="📊",
     layout="wide",
     initial_sidebar_state="expanded",
@@ -76,7 +76,7 @@ def authenticate() -> bool:
     <div style="max-width:540px;margin:70px auto 12px auto;padding:42px 35px;
     background:#fff;border-radius:18px;border-top:8px solid #f5b700;
     box-shadow:0 10px 35px rgba(0,0,0,.10);text-align:center;">
-      <div style="font-size:34px;font-weight:800;color:#082d55;">PDP CONTROL CENTER</div>
+      <div style="font-size:34px;font-weight:800;color:#082d55;">PDP CONTROL CENTER CHINALCO </div>
       <div style="font-size:18px;color:#667085;margin-top:8px;">
         Control y seguimiento de órdenes de trabajo
       </div>
@@ -578,7 +578,7 @@ def build_pdf_report(ots: pd.DataFrame, activities: pd.DataFrame, progress: pd.D
     styles = getSampleStyleSheet()
     story = []
 
-    story.append(Paragraph("PDP CONTROL CENTER – INFORME EJECUTIVO", styles["Title"]))
+    story.append(Paragraph("PDP CONTROL CENTER CHINALCO – INFORME EJECUTIVO", styles["Title"]))
     story.append(Spacer(1, 10))
     story.append(Paragraph(
         f"Fecha de emisión: {datetime.now():%d/%m/%Y %H:%M}",
@@ -697,8 +697,8 @@ with st.sidebar:
         st.rerun()
 
 
-st.title("APLICATIVO DE CONTROL Y SEGUIMIENTO DE OTs")
-st.caption("Cada OT puede contener varias actividades, cada una con avance independiente.")
+st.title("APLICATIVO DE CONTROL Y SEGUIMIENTO DE OTs - CHINALCO")
+st.caption("Unidad Minera Chinalco")
 
 ADMIN_ONLY_PAGES = {
     "Dashboard ejecutivo",

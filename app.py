@@ -660,7 +660,7 @@ def build_pdf_report(ots: pd.DataFrame, activities: pd.DataFrame, progress: pd.D
 
 
 with st.sidebar:
-    st.image("Completo_Logo Alto Cotraste_Negativo 22x85cm.png", width=220)
+    st.image("logo_mainin.png", width=220)
     st.markdown("---")
     
     st.markdown("### Unidad Minera")

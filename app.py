@@ -660,9 +660,11 @@ def build_pdf_report(ots: pd.DataFrame, activities: pd.DataFrame, progress: pd.D
 
 
 with st.sidebar:
-    st.markdown("## MAININ")
-    st.caption("Maintenance Ingenuity")
+    st.image("Completo_Logo Alto Cotraste_Negativo 22x85cm.png", width=220)
     st.markdown("---")
+    
+    st.markdown("### Unidad Minera")
+    st.success("CHINALCO")
 
     role = st.session_state.get("role", "reporter")
 

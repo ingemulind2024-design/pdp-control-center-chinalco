@@ -2,7 +2,7 @@
 import io
 import hmac
 import uuid
-from PIL import Image
+from PIL import Image, ImageOps
 from datetime import datetime, timezone
 
 import pandas as pd
@@ -23,6 +23,52 @@ st.set_page_config(
 )
 
 BUCKET = "evidencias-ots"
+
+def compress_image(uploaded_file, max_dimension=1600, quality=80):
+    """
+    Comprime automáticamente imágenes provenientes de celular o PC.
+    Devuelve los bytes en formato JPEG.
+    """
+
+    uploaded_file.seek(0)
+    image = Image.open(uploaded_file)
+
+    # Corrige automáticamente la orientación de fotos tomadas con celular
+    image = ImageOps.exif_transpose(image)
+
+    # Convierte transparencias / PNG / WEBP a RGB
+    if image.mode in ("RGBA", "LA", "P"):
+        background = Image.new("RGB", image.size, "white")
+
+        if image.mode == "P":
+            image = image.convert("RGBA")
+
+        if image.mode in ("RGBA", "LA"):
+            background.paste(image, mask=image.getchannel("A"))
+
+        image = background
+    elif image.mode != "RGB":
+        image = image.convert("RGB")
+
+    # Reduce resolución manteniendo proporción
+    image.thumbnail(
+        (max_dimension, max_dimension),
+        Image.Resampling.LANCZOS
+    )
+
+    output = io.BytesIO()
+
+    image.save(
+        output,
+        format="JPEG",
+        quality=quality,
+        optimize=True,
+        progressive=True
+    )
+
+    output.seek(0)
+
+    return output.getvalue()
 
 st.markdown("""
 <style>

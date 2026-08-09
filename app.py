@@ -924,7 +924,7 @@ if page == "Registrar avance":
                         )
                         evidence_stage = c2.selectbox(
                             "Tipo de evidencia",
-                            ["ANTES", "DURANTE", "DESPUÉS"],
+                            ["INICIO", "DURANTE", "FINAL"],
                         )
                         critical = st.checkbox("Marcar actividad como crítica")
                         description = st.text_area(

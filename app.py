@@ -1477,9 +1477,20 @@ if page == "Importar base":
             writer, index=False, sheet_name="OTs"
         )
         pd.DataFrame(columns=[
-            "ot", "codigo_actividad", "descripcion", "supervisor",
-            "especialidad", "grupo", "peso", "inicio_plan", "fin_plan"
-        ]).to_excel(writer, index=False, sheet_name="Actividades")
+    "ot",
+    "codigo_actividad",
+    "descripcion",
+    "supervisor",
+    "especialidad",
+    "grupo",
+    "peso",
+    "inicio_plan",
+    "fin_plan",
+    "seccion",
+    "personal",
+    "duracion_h",
+    "hh_plan"
+]).to_excel(writer, index=False, sheet_name="Actividades")
 
     st.download_button(
         "Descargar plantilla",
@@ -1503,10 +1514,21 @@ if page == "Importar base":
             preview_activities = pd.read_excel(uploaded, sheet_name="Actividades")
 
             required_ots = {"ot", "equipo", "descripcion", "activo"}
-            required_activities = {
-                "ot", "codigo_actividad", "descripcion", "supervisor",
-                "especialidad", "grupo", "peso", "inicio_plan", "fin_plan"
-            }
+           required_activities = {
+    "ot",
+    "codigo_actividad",
+    "descripcion",
+    "supervisor",
+    "especialidad",
+    "grupo",
+    "peso",
+    "inicio_plan",
+    "fin_plan",
+    "seccion",
+    "personal",
+    "duracion_h",
+    "hh_plan"
+}
 
             missing_ots = required_ots - set(preview_ots.columns)
             missing_activities = required_activities - set(preview_activities.columns)
@@ -1672,6 +1694,10 @@ if page == "Importar base":
                         "peso": row["peso"],
                         "inicio_plan": row["inicio_plan"],
                         "fin_plan": row["fin_plan"],
+                        "seccion": row["seccion"],
+                        "personal": row["personal"],
+                        "duracion_h": row["duracion_h"],
+                        "hh_plan": row["hh_plan"],
                     })
 
                 progress_bar.progress(60, text="Cargando nuevas actividades...")

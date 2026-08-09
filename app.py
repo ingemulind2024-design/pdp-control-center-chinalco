@@ -1119,7 +1119,11 @@ if page == "Dashboard ejecutivo":
             ["CULMINADO", "EN EJECUCIÓN", "NO INICIADO"],
             placeholder="Todos los estados",
         )
-
+        # Agregar EQUIPO desde la tabla de OTs
+        if "equipo" not in table_data.columns:
+            equipo_map = dict(zip(ots["ot"].astype(str), ots["equipo"]))
+            table_data["equipo"] = table_data["ot"].astype(str).map(equipo_map)
+    
         filtered_table = table_data.copy()
         if selected_table_ot:
             filtered_table = filtered_table[
@@ -1142,6 +1146,7 @@ if page == "Dashboard ejecutivo":
             "ot",
             "grupo",
             "codigo_actividad",
+            "equipo",
             "descripcion",
             "supervisor",
             "inicio_plan",
@@ -1168,6 +1173,7 @@ if page == "Dashboard ejecutivo":
                 "ot": st.column_config.TextColumn("OT"),
                 "grupo": st.column_config.TextColumn("GRUPO"),
                 "codigo_actividad": st.column_config.TextColumn("ACTIVIDAD"),
+                "equipo": st.column_config.TextColumn("EQUIPO"),
                 "descripcion": st.column_config.TextColumn(
                     "DESCRIPCIÓN DE ACTIVIDAD",
                     width="large",

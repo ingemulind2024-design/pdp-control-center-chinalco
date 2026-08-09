@@ -199,15 +199,26 @@ def read_table(name: str) -> pd.DataFrame:
 
 
 def upload_evidence(file, ot: str, activity_id: str) -> str:
-    # Comprimir automáticamente la fotografía
+
+    # Tamaño original
+    original_bytes = file.getvalue()
+    original_size = len(original_bytes)
+
+    # Comprimir fotografía
     compressed_bytes = compress_image(
         file,
         max_dimension=1600,
         quality=80
     )
 
-    # Todas las evidencias comprimidas se almacenarán como JPG
-    ext = "jpg"
+    # Tamaño comprimido
+    compressed_size = len(compressed_bytes)
+
+    saving = (
+        (1 - compressed_size / original_size) * 100
+        if original_size > 0
+        else 0
+    )
 
     safe_ot = "".join(
         ch for ch in str(ot)
@@ -216,7 +227,7 @@ def upload_evidence(file, ot: str, activity_id: str) -> str:
 
     filename = (
         f"{datetime.now(timezone.utc):%Y%m%d_%H%M%S}_"
-        f"{uuid.uuid4().hex[:10]}.{ext}"
+        f"{uuid.uuid4().hex[:10]}.jpg"
     )
 
     path = f"{safe_ot}/{activity_id}/{filename}"
@@ -230,8 +241,14 @@ def upload_evidence(file, ot: str, activity_id: str) -> str:
         },
     )
 
-    return supabase.storage.from_(BUCKET).get_public_url(path)
+    st.success(
+        f"📷 Imagen optimizada: "
+        f"{original_size / (1024 * 1024):.2f} MB → "
+        f"{compressed_size / 1024:.0f} KB "
+        f"({saving:.0f}% de ahorro)"
+    )
 
+    return supabase.storage.from_(BUCKET).get_public_url(path)
 
 def invalidate():
     read_table.clear()

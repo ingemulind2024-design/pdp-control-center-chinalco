@@ -1654,6 +1654,10 @@ if page == "Importar base":
                         "peso": clean_number(row.get("peso"), 1),
                         "inicio_plan": clean_datetime(row.get("inicio_plan")),
                         "fin_plan": clean_datetime(row.get("fin_plan")),
+                        "seccion": clean_text(row.get("seccion")),
+                        "personal": clean_number(row.get("personal")),
+                        "duracion_h": clean_number(row.get("duracion_h")),
+                        "hh_plan": clean_number(row.get("hh_plan")),
                     })
 
                 if not clean_ots:

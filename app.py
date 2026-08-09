@@ -199,15 +199,37 @@ def read_table(name: str) -> pd.DataFrame:
 
 
 def upload_evidence(file, ot: str, activity_id: str) -> str:
-    ext = file.name.rsplit(".", 1)[-1].lower() if "." in file.name else "jpg"
-    safe_ot = "".join(ch for ch in ot if ch.isalnum() or ch in "-_")
-    filename = f"{datetime.now(timezone.utc):%Y%m%d_%H%M%S}_{uuid.uuid4().hex[:10]}.{ext}"
+    # Comprimir automáticamente la fotografía
+    compressed_bytes = compress_image(
+        file,
+        max_dimension=1600,
+        quality=80
+    )
+
+    # Todas las evidencias comprimidas se almacenarán como JPG
+    ext = "jpg"
+
+    safe_ot = "".join(
+        ch for ch in str(ot)
+        if ch.isalnum() or ch in "-_"
+    )
+
+    filename = (
+        f"{datetime.now(timezone.utc):%Y%m%d_%H%M%S}_"
+        f"{uuid.uuid4().hex[:10]}.{ext}"
+    )
+
     path = f"{safe_ot}/{activity_id}/{filename}"
+
     supabase.storage.from_(BUCKET).upload(
         path=path,
-        file=file.getvalue(),
-        file_options={"content-type": file.type or "image/jpeg", "upsert": "false"},
+        file=compressed_bytes,
+        file_options={
+            "content-type": "image/jpeg",
+            "upsert": "false"
+        },
     )
+
     return supabase.storage.from_(BUCKET).get_public_url(path)
 
 

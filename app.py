@@ -2,6 +2,7 @@
 import io
 import hmac
 import uuid
+from PIL import Image
 from datetime import datetime, timezone
 
 import pandas as pd

@@ -1514,20 +1514,21 @@ if page == "Importar base":
             preview_activities = pd.read_excel(uploaded, sheet_name="Actividades")
 
             required_ots = {"ot", "equipo", "descripcion", "activo"}
-           required_activities = {
-    "ot",
-    "codigo_actividad",
-    "descripcion",
-    "supervisor",
-    "especialidad",
-    "grupo",
-    "peso",
-    "inicio_plan",
-    "fin_plan",
-    "seccion",
-    "personal",
-    "duracion_h",
-    "hh_plan"
+
+            required_activities = {
+            "ot",
+            "codigo_actividad",
+            "descripcion",
+            "supervisor",
+            "especialidad",
+            "grupo",
+            "peso",
+            "inicio_plan",
+            "fin_plan",
+            "seccion",
+            "personal",
+            "duracion_h",
+            "hh_plan",
 }
 
             missing_ots = required_ots - set(preview_ots.columns)
